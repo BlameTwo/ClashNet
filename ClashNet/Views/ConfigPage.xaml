@@ -1,0 +1,149 @@
+﻿<Page
+    x:Class="ClashNet.Views.ConfigPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:property="clr-namespace:ClashNet.Styles.Propertys"
+    xmlns:ui="clr-namespace:SimpleUI.Controls;assembly=SimpleUI"
+    xmlns:viewmodels="clr-namespace:ClashNet.ViewModels"
+    xmlns:wpftk="clr-namespace:WpfToolkit.Controls;assembly=VirtualizingWrapPanel"
+    x:Name="configpage"
+    Title="ConfigPage"
+    d:DataContext="{d:DesignInstance Type=viewmodels:ConfigViewModel}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Foreground="{DynamicResource DefaultAppFillBrush}"
+    mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Page.Resources>
+        <!--  绑定桥梁  -->
+        <property:BindingProxy x:Key="DataContextProxy" Data="{Binding}" />
+    </Page.Resources>
+    <Grid x:Name="grid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock
+            HorizontalAlignment="Left"
+            FontSize="{DynamicResource PageTitleFontSize}"
+            Text="配置文件" />
+        <StackPanel
+            Grid.Row="1"
+            Margin="10"
+            Orientation="Horizontal">
+            <Button
+                Padding="10"
+                Command="{Binding ShowAddServerProfileCommand}"
+                Content="增加配置文件" />
+            <Button
+                Margin="5,0,0,0"
+                Padding="10"
+                Command="{Binding FromCilpboardCommand}"
+                Content="从粘贴板导入" />
+            <ui:Button
+                Margin="3,0,0,0"
+                Padding="18"
+                Command="{Binding RefershFileCommand}"
+                ContentVisiblity="Collapsed"
+                Icon="Refresh"
+                ToolTipService.ToolTip="刷新" />
+            <ui:FlyoutButton
+                Margin="3,0,0,0"
+                Padding="19"
+                Content="菜单"
+                Icon="AppIconDefault"
+                Placement="Bottom">
+                <ui:FlyoutButton.DropContent>
+                    <StackPanel>
+                        <ui:Button
+                            Command="{Binding SelectConfigFileCommand}"
+                            Content="激活选中配置"
+                            Icon="FileExplorer" />
+                        <ui:Button
+                            Margin="0,5,0,0"
+                            Command="{Binding OpenConfigFileCommand}"
+                            Content="在本地打开选中配置"
+                            Icon="OpenFile" />
+                        <ui:Button
+                            Margin="0,5,0,0"
+                            Command="{Binding UpdateConfigCommand}"
+                            Content="更新选中订阅"
+                            Icon="DevUpdate" />
+                        <ui:Button
+                            Margin="0,5,0,0"
+                            Command="{Binding DeleteConfigFileCommand}"
+                            Content="删除选中订阅"
+                            Icon="Delete" />
+                    </StackPanel>
+                </ui:FlyoutButton.DropContent>
+            </ui:FlyoutButton>
+        </StackPanel>
+        <ListBox
+            x:Name="items"
+            Grid.Row="2"
+            Background="Transparent"
+            ItemsSource="{Binding Yamlconfig, Mode=OneWay}"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            SelectedItem="{Binding Selectitem, Mode=TwoWay}"
+            VirtualizingPanel.CacheLength="1"
+            VirtualizingPanel.CacheLengthUnit="Pixel"
+            VirtualizingPanel.ScrollUnit="Pixel"
+            VirtualizingPanel.VirtualizationMode="Standard">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        x:Name="border"
+                        Padding="4"
+                        BorderBrush="{DynamicResource Default.Dialog.BorderBrush.Brush}"
+                        BorderThickness="0.1"
+                        CornerRadius="3">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Margin="5,5,0,0"
+                                FontSize="15"
+                                Text="{Binding Item1.Name, Mode=OneWay}"
+                                TextTrimming="CharacterEllipsis" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Margin="0,15,0,0"
+                                Text="{Binding Item1.external_controller, Mode=OneWay}" />
+                            <ui:Button
+                                Grid.RowSpan="2"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                ContentVisiblity="Collapsed"
+                                Icon="DevUpdate"
+                                ToolTip="{Binding Item1.UpdateTime, Mode=OneWay}" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <wpftk:VirtualizingWrapPanel
+                        IsItemsHost="True"
+                        ItemSize="180 80"
+                        Orientation="Horizontal"
+                        ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                        ScrollViewer.VerticalScrollBarVisibility="Visible"
+                        VirtualizingPanel.CacheLength="1"
+                        VirtualizingPanel.CacheLengthUnit="Pixel"
+                        VirtualizingPanel.ScrollUnit="Pixel"
+                        VirtualizingPanel.VirtualizationMode="Standard" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+    </Grid>
+</Page>

@@ -1,0 +1,148 @@
+﻿<ui:WindowBase
+    x:Class="ClashNet.Views.Windows.TranIconWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ClashNet.Views.Windows"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="clr-namespace:SimpleUI.Controls;assembly=SimpleUI"
+    xmlns:windows="clr-namespace:ClashNet.ViewModels.Windows"
+    Title="快捷面板"
+    Width="400"
+    Height="450"
+    d:DataContext="{d:DesignInstance Type=windows:TranIconViewModel}"
+    ExitButton="False"
+    Icon="/Resources/Images/icon.png"
+    ResizeMode="NoResize"
+    Style="{DynamicResource DefaultWindowBaseStyle}"
+    WindowStartupLocation="Manual"
+    mc:Ignorable="d">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock VerticalAlignment="Center" FontSize="15">
+                        <Run Text="上传：12kb/s" />
+                        <LineBreak />
+                        <Run Text="下载：12.mb/s" />
+                    </TextBlock>
+                </Grid>
+            </Button>
+            <StackPanel
+                Grid.Column="0"
+                Margin="20,0,0,0"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Rectangle
+                    Width="10"
+                    Height="10"
+                    Fill="Green"
+                    RadiusX="10"
+                    RadiusY="10" />
+                <TextBlock
+                    Margin="10,0,0,0"
+                    FontSize="15"
+                    Text="已连接" />
+            </StackPanel>
+            <ListBox
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                Margin="0,10,0,0"
+                Foreground="{DynamicResource DefaultAppFillBrush}"
+                ItemsSource="{Binding ProxyList}"
+                SelectedItem="{Binding SelectProxy, Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Grid
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Margin="0,5,0,0"
+                VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <ToggleButton
+                    Margin="5"
+                    Padding="10"
+                    FontSize="14"
+                    IsChecked="{Binding OpenAllowProxy, Mode=TwoWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <ui:FontIcon Glyph="&#xE770;" />
+                        <TextBlock Margin="5" Text="局域网" />
+                    </StackPanel>
+                </ToggleButton>
+                <ToggleButton
+                    Grid.Column="1"
+                    Margin="5"
+                    FontSize="14"
+                    IsChecked="{Binding OpenSystemProxy, Mode=TwoWay}">
+                    <StackPanel Orientation="Horizontal">
+                        <ui:FontIcon Glyph="&#xF6FA;" />
+                        <TextBlock Margin="5" Text="系统代理" />
+                    </StackPanel>
+                </ToggleButton>
+                <Button
+                    Grid.Column="2"
+                    Margin="5"
+                    Command="{Binding ShowLookbackCommand}"
+                    FontSize="14"
+                    ToolTip="解放UWP应用回环">
+                    <StackPanel Orientation="Horizontal">
+                        <ui:FontIcon Glyph="&#xED5D;" />
+                        <TextBlock Margin="5" Text="网络回环" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <Border
+                VerticalAlignment="Top"
+                BorderBrush="{DynamicResource Navigation.LineBrush}"
+                BorderThickness="0.5" />
+            <StackPanel
+                Margin="0,7,0,0"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <ui:Button
+                    Command="{Binding ShowHomeCommand}"
+                    ContentVisiblity="Collapsed"
+                    Icon="Home"
+                    ToolTip="主页" />
+            </StackPanel>
+            <ui:Button
+                Margin="0,5,0,0"
+                HorizontalAlignment="Right"
+                Command="{Binding ExitAppCommand}"
+                ContentVisiblity="Collapsed"
+                Icon="Clear"
+                ToolTipService.ToolTip="退出应用" />
+        </Grid>
+    </Grid>
+</ui:WindowBase>

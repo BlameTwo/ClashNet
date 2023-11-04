@@ -1,0 +1,22 @@
+﻿<Application
+    x:Class="ClashNet.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:ClashNet.Styles.Converter"
+    xmlns:local="clr-namespace:ClashNet"
+    xmlns:style="clr-namespace:SimpleUI.Styles;assembly=SimpleUI"
+    xmlns:theme="clr-namespace:SimpleUI.Themes;assembly=SimpleUI"
+    ShutdownMode="OnExplicitShutdown">
+    <Application.Resources>
+        <ResourceDictionary>
+            <converter:SpendConverter x:Key="SpendConverter" />
+            <converter:DelayConverter x:Key="DelayConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <style:SimpleStyle Type="Default" />
+                <theme:Theme Type="Dark" />
+                <ResourceDictionary Source="pack://application:,,,/ClashNet;component/Styles/FontSize.xaml" />
+                <ResourceDictionary Source="/Styles/Templates/ProxyTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
